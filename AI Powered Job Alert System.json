@@ -1,0 +1,169 @@
+{
+  "name": "AI Powered Job Alert System",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "daysInterval": "={{ 1 }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -432,
+        -96
+      ],
+      "id": "393620c5-ddb5-48ee-b740-024b40b50648",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "url": "https://weworkremotely.com/categories/remote-programming-jobs.rss",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.rssFeedRead",
+      "typeVersion": 1.2,
+      "position": [
+        -224,
+        -96
+      ],
+      "id": "3cb6b735-2428-4b6f-a2e5-bc4737796c15",
+      "name": "RSS Read"
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "gpt-3.5-turbo",
+          "mode": "list",
+          "cachedResultName": "GPT-3.5-TURBO"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "=[\n  {\n    \"role\": \"system\",\n    \"content\": \"You are an assistant that summarizes job posts in 5–6 bullet points. Include title, company, location, key responsibilities, requirements, and a direct apply link if present.\"\n  },\n  {\n    \"role\": \"user\",\n    \"content\": \"Summarize the following job post:\\n\\n{{ $json.content }} {{ $json.title }}\"\n  }\n]"
+            }
+          ]
+        },
+        "simplify": false,
+        "jsonOutput": true,
+        "options": {
+          "maxTokens": 300
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.8,
+      "position": [
+        -16,
+        -96
+      ],
+      "id": "de413fb6-9397-46dd-8c73-34b4b4909e63",
+      "name": "Message a model",
+      "credentials": {
+        "openAiApi": {
+          "id": "yW7LUrM07c85p9O6",
+          "name": "OpenAi account 3"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "satchittanand177@gmail.com",
+        "subject": "New Job Alert",
+        "emailType": "text",
+        "message": "=Here’s a new job you might like:{{ $json.choices[0].message.content }}\n🧠 Powered by OpenAI & n8n\nMade with 💓 by Satyanarayan only for you",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        528,
+        -96
+      ],
+      "id": "34d73d79-7106-4520-b5dc-d34ca8921335",
+      "name": "Send a message",
+      "webhookId": "45f5197a-b9fc-4d43-8c1f-6a01649ffcf7",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "y8nWFPoHxgG0SRj1",
+          "name": "Gmail account 3"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const jobs = $input.all();\nconst total = jobs.length;\n\n// Limit the jobs to the first 3\nconst limitedJobs = jobs.slice(Math.max( total - 5, 0));\n\nreturn limitedJobs;\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        352,
+        -96
+      ],
+      "id": "cd6011c3-730c-4135-bb62-c2ec53d6e9b6",
+      "name": "Code"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "RSS Read",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "RSS Read": {
+      "main": [
+        [
+          {
+            "node": "Message a model",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Message a model": {
+      "main": [
+        [
+          {
+            "node": "Code",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code": {
+      "main": [
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "547de2aa-2ec6-4771-8711-ec36f9895797",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "75d9cf4ee428fc3b3f2a50d13bd8ee9819f8b57bc9c488af4d7325428e3e3c09"
+  },
+  "id": "ryuvnYhQtVfIv4sz",
+  "tags": []
+}
