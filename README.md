@@ -1,5 +1,4 @@
-# Job-Alert-System
----
+
 # 🧠 AI Powered Job Alert System
 
 An automated job notification workflow that fetches remote programming job listings from **We Work Remotely**, summarizes them using GPT-3.5 Turbo, and delivers curated alerts via Gmail. Built with 💓 by Satyanarayan using `n8n`, OpenAI, and modular code design principles.
