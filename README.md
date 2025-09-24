@@ -19,16 +19,17 @@ An automated job notification workflow that fetches remote programming job listi
   🧠 Powered by OpenAI & n8n  
   Made with 💓 by Satyanarayan only for you
   ```
-
+---
 ## 🧩 Workflow Overview
 
+```mermaid
 graph TD
-  A[⏰ Schedule Trigger<br>Triggers every 24 hours] --> B[📡 RSS Feed Read<br>Fetch latest job posts]
-  B --> C[🧠 Message a Model (OpenAI)<br>Summarize job details]
-  C --> D[🔢 Limit to Last 5 Jobs<br>Filter recent entries]
-  D --> E[✉️ Send Email Notification<br>Deliver curated alerts]
-
-
+A[⏰ Schedule Trigger<br>Triggers every 24 hours] --> B[📡 RSS Feed Read<br>Fetch latest job posts]
+B --> C[🧠 Message a Model (OpenAI)<br>Summarize job details]
+C --> D[🔢 Limit to Last 5 Jobs<br>Filter recent entries]
+D --> E[✉️ Send Email Notification<br>Deliver curated alerts]
+```
+---
 ### 📦 Node Breakdown
 
 | Node Name         | Description                                       |
