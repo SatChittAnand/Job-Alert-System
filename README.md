@@ -25,7 +25,7 @@ An automated job notification workflow that fetches remote programming job listi
 ```mermaid
 graph TD
 A[⏰ Schedule Trigger<br>Triggers every 24 hours] --> B[📡 RSS Feed Read<br>Fetch latest job posts]
-B --> C[🧠 Message a Model (OpenAI)<br>Summarize job details]
+B --> C[🧠 Message a Model OpenAI<br>Summarize job details]
 C --> D[🔢 Limit to Last 5 Jobs<br>Filter recent entries]
 D --> E[✉️ Send Email Notification<br>Deliver curated alerts]
 ```
