@@ -22,7 +22,7 @@ An automated job notification workflow that fetches remote programming job listi
 
 ## 🧩 Workflow Overview
 
-```
+```mermaid
 graph TD
   A[Schedule Trigger] --> B[RSS Feed Read]
   B --> C[Message a Model (OpenAI)]
